@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{330EBDB1-158A-4627-A789-582C7F52C0D5}"
+	ProjectSection(SolutionItems) = preProject
+		App.tsx = App.tsx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AB62D858-633E-482B-851D-2C7E80DEDBEB}"
+	ProjectSection(SolutionItems) = preProject
+		package.json = package.json
+		tsconfig.json = tsconfig.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {87EF68EC-3933-48F4-99B2-11AF53818DA0}
+	EndGlobalSection
+EndGlobal
