@@ -2,16 +2,6 @@ import Pokemon from './pokemon';
   
 export const POKEMONS: Pokemon[] = [
  {
-     id: 75,
-     name: "Copie de Carapuce pour le test",
-     hp: 150,
-     cp: 152,
-     picture: "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/007.png",
-     types: ["Plante", "Poison"],
-     created: new Date()
- }
-    ,
- {
   id: 1,
   name: "Bulbizarre",
   hp: 25,
