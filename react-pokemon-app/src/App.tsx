@@ -12,6 +12,8 @@ const App: /*React.FC */ FunctionComponent = () => {
    useEffect(() => {
      setPokemons(POKEMONS);
     }, []);
+
+
  return (
   <h1>il y a  {pokemons.length} de pokemon !</h1>
  )
