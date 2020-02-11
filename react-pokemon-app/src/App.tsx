@@ -2,7 +2,7 @@
 import React, {FunctionComponent} from 'react';
 import PokemonList from './pages/pokemon-list';
 
-const App: /*React.FC */ FunctionComponent = () => {
+const App:/*React.FC */ FunctionComponent = () => {
     /* le hook permettant de rajouter le state à un composant de fonction
     (stateless component) est useState */
  

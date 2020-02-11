@@ -4,10 +4,11 @@ import POKEMONS from '../models/mock-pokemon';
 import PokemonCard from '../components/pokemon-card';
   
 const PokemonList: FunctionComponent = () => {
+    
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
-  
+
   useEffect(() => {
-    setPokemons(POKEMONS);
+    setPokemons(POKEMONS); // set la liste de Pok dans le hook pokemons avec le mock POKEMONS
   }, []);
   
   return (
