@@ -19,10 +19,6 @@ const PokemonCard: FunctionComponent<Props> = ({pokemon, bordelColor = "#009668"
       setColor(bordelColor);
     };
 
-    const SelectBorderColor = () => {
-      setColor("red");
-    };
-
     const HideBorderColor = () => {
       setColor("#f5f5f5");
     };
