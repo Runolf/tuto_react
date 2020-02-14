@@ -40,7 +40,7 @@ const formatType = (type: string): string => {
       break; 
   }
  
-  return `chip ${color}`; // les couleurs et chip viennet de materialize
+  return `chip ${color}`; // les couleurs et chip viennet de materialize. chip met la couleur du txt en noir
 }
 
 export default formatType;

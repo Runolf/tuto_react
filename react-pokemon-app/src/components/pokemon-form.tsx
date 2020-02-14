@@ -41,16 +41,21 @@ const PokemonForm: FunctionComponent<Props> = ({pokemon}) => {
                 {/* Pokemon types */}
                 <div className="form-group">
                   <label>Types</label>
+
                   {types.map(type => (
                     <div key={type} style={{marginBottom: '10px'}}>
                       <label>
+
                         <input id={type} type="checkbox" className="filled-in"></input>
+                        
                         <span>
                           <p className={formatType(type)}>{ type }</p>
                         </span>
+
                       </label>
                     </div>
                   ))}
+
                 </div>
               </div>
               <div className="card-action center">
