@@ -14,6 +14,20 @@ export default class PokemonService {
       .then(data => this.isEmpty(data) ? null : data)
       .catch(error => this.handleError(error));
   }
+ 
+  static addPokemon(pokemon: Pokemon): Promise<Pokemon>{
+
+    delete pokemon.created; // on retire le created car c'est la methode formatDate qui créé la date. 
+
+    return fetch(`http://localhost:3001/pokemons`,{
+    method: 'POST',
+    body: JSON.stringify(pokemon),
+    headers: {'Content-Type': 'application/json'} 
+  })
+    .then(response => response.json())
+    .catch(error => this.handleError(error));
+} 
+
   static updatePokemon(pokemon: Pokemon): Promise<Pokemon>{
       return fetch(`http://localhost:3001/pokemons/${pokemon.id}`,{
       method: 'PUT',
@@ -23,6 +37,16 @@ export default class PokemonService {
       .then(response => response.json())
       .catch(error => this.handleError(error));
   } 
+
+  static deletePokemon(pokemon: Pokemon): Promise<{}>{
+    return fetch(`http://localhost:3001/pokemons/${pokemon.id}`,{
+    method: 'DELETE',
+    headers: {'Content-Type': 'application/json'} 
+  })
+    .then(response => response.json())
+    .catch(error => this.handleError(error));
+} 
+
   static isEmpty(data: Object): boolean {
     return Object.keys(data).length === 0;
   }

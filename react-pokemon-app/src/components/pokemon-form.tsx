@@ -2,9 +2,11 @@ import React, { FunctionComponent, useState } from 'react';
 import Pokemon from '../models/pokemon';
 import formatType from '../helpers/format-type';
 import{useHistory} from 'react-router-dom';
+import PokemonService from '../services/pokemon-services';
   
 type Props = {
-  pokemon: Pokemon
+  pokemon: Pokemon,
+  isEditForm: boolean
 };
 
   type Field = {
@@ -14,15 +16,17 @@ type Props = {
   }
 
   type Form = {
+    picture: Field,
     name: Field,
     hp: Field,
     cp: Field,
     types: Field
 }
   
-const PokemonForm: FunctionComponent<Props> = ( {pokemon} ) => {
+const PokemonForm: FunctionComponent<Props> = ( {pokemon, isEditForm} ) => {
   
   const [form, setForm ] = useState<Form>({
+    picture: {value: pokemon.picture },
     name: {value: pokemon.name, isValid: true}, 
     hp : {value: pokemon.hp, isValid: true},
     cp : {value: pokemon.cp, isValid: true},
@@ -71,19 +75,44 @@ const PokemonForm: FunctionComponent<Props> = ( {pokemon} ) => {
     e.preventDefault();
     const isFormValid = validateForm();
     if(isFormValid){
-      history.push(`/pokemons/${pokemon.id}`);
-    }
+      pokemon.picture = form.picture.value;
+      pokemon.name = form.name.value; 
+      pokemon.hp = form.hp.value;
+      pokemon.cp = form.cp.value;
+      pokemon.types = form.types.value;
+      isEditForm?updatePokemon():addPokemon();
+   }
   }
  
+  const isAddForm = () => {
+    return !isEditForm;
+  }
+
   const validateForm = () => {
     let newForm: Form = form;
 
-    // validator name
+    // validator url image
+    if(isAddForm()){
+      const start = "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/";
+      const end = ".png";
+
+      if(!form.picture.value.startsWith(start) || !form.picture.value.endsWith(end)){
+          const errorMsg: string = "l'url n est pas valide!";
+          const newField: Field = {value : form.picture.value, error: errorMsg, isValid: false};
+          newForm = {...form, ...{picture: newField}};
+      } else {
+          const newField: Field = {value : form.picture.value, error:'', isValid: true};
+          newForm = {...form, ...{picture: newField}};
+      }
+
+    }
+
+   // validator name
     if(!/^[a-zA-Zàéè ]{3,25}$/.test(form.name.value)){
       const errorMsg: string = 'Le nom du pokémon est requis.';
       const newField: Field = {value: form.name.value, error: errorMsg, isValid: false};
       newForm = {...newForm, ...{name: newField}};
-    }else{
+    } else {
       const newField: Field = {value: form.name.value, error: '', isValid: true};
       newForm = {...newForm, ...{name: newField}};
     }
@@ -91,25 +120,25 @@ const PokemonForm: FunctionComponent<Props> = ( {pokemon} ) => {
     if(!/^[0-9]{1,3}$/.test(form.hp.value)){
       const errorMsg: string = 'Les points de vie du pokémon sont compris entre 0 et 999.';
       const newField: Field = {value: form.hp.value, error: errorMsg, isValid: false};
-      newForm = {...newForm, ...{name: newField}};
-    }else{
+      newForm = {...newForm, ...{hp: newField}};
+    } else {
       const newField: Field = {value: form.hp.value, error: '', isValid: true};
-      newForm = {...newForm, ...{name: newField}};
+      newForm = {...newForm, ...{hp: newField}};
     }
 
     if(!/^[0-9]{1,2}$/.test(form.cp.value)){
       const errorMsg: string = 'Les dégats du pokémons sont compris entre 0 et 99.';
       const newField: Field = {value: form.cp.value, error: errorMsg, isValid: false};
-      newForm = {...newForm, ...{name: newField}};
-    }else{
+      newForm = {...newForm, ...{cp: newField}};
+    } else {
       const newField: Field = {value: form.cp.value, error: '', isValid: true};
-      newForm = {...newForm, ...{name: newField}};
+      newForm = {...newForm, ...{cp: newField}};
     }
 
     setForm(newForm);
 
-    return newForm.name.isValid && newForm.hp.isValid && newForm.cp.isValid;
-
+   // return newForm.name.isValid && newForm.hp.isValid && newForm.cp.isValid;
+    return ((newForm.name.isValid && newForm.hp.isValid && newForm.cp.isValid) === true)?true:false; 
   }
 
   const isTypesValid = (type: string):boolean => {
@@ -122,17 +151,50 @@ const PokemonForm: FunctionComponent<Props> = ( {pokemon} ) => {
       return true;
   }
 
+  const deletePokemon = () =>  {
+    PokemonService.deletePokemon(pokemon)
+    .then(() => history.push(`/pokemons`));
+  }
+
+  const addPokemon = () => {
+    PokemonService.addPokemon(pokemon)
+    .then(() => history.push(`/pokemons`));
+  }
+
+  const updatePokemon = () => {
+    PokemonService.updatePokemon(pokemon)
+      .then(() => history.push(`/pokemons/${pokemon.id}`));
+  }
 
   return (
     <form onSubmit={e => handleSubmit(e)}>
       <div className="row">
         <div className="col s12 m8 offset-m2">
           <div className="card hoverable"> 
-            <div className="card-image">
-              <img src={pokemon.picture} alt={pokemon.name} style={{width: '250px', margin: '0 auto'}}/>
-            </div>
+            {isEditForm && (
+              <div className="card-image">
+                <img src={pokemon.picture} alt={pokemon.name} style={{width: '250px', margin: '0 auto'}}/>
+                <span className="btn-floating halfway-fab waves-effect waves-light">
+                  <i onClick={deletePokemon} className="material-icons">delete</i>
+               </span>
+              </div>
+            )}
             <div className="card-stacked">
               <div className="card-content">
+
+                {isAddForm && (
+                  /* Pokemon picture */
+                <div className="form-group">
+                    <label htmlFor="picture">Image</label>
+                    <input id="picture" name="picture" type="text" className="form-control" value={form.picture.value} onChange={e => handleInputChange(e)}></input>
+                    {form.picture.error &&
+                      <div className="card-panel red accent-1">
+                        {form.picture.error}
+                      </div>
+                    }
+                </div>
+               )}
+
                 {/* Pokemon name */}
                 <div className="form-group">
                   <label htmlFor="name">Nom</label>
