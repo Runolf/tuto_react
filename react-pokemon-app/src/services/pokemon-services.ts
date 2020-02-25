@@ -44,9 +44,9 @@ export default class PokemonService {
     }
   
     return new Promise(resolve => {
-      const { id } = pokemon;
-      const index = this.pokemons.findIndex(pokemon => pokemon.id === id);
-      this.pokemons[index] = pokemon;
+      const {id} = pokemon; // stock l id du pokemon passé en param
+      const index = this.pokemons.findIndex(pokemon => pokemon.id === id); // stock l index du pok dont l id est égal à l'id du pok passé en param
+      this.pokemons[index] = pokemon; // va chercher le pok dans la liste pokemons avec l'index indiqué 
       resolve(pokemon);
     }); 
   }

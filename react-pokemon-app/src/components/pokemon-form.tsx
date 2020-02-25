@@ -47,11 +47,11 @@ const PokemonForm: FunctionComponent<Props> = ( {pokemon, isEditForm} ) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const fieldName: string = e.target.name; // retrive the name of the object -> nom du champ
       const fieldValue: string = e.target.value; // retrieve the value of the object -> nouvelle valeur du champ
-
+      
       const newField: Field = {[fieldName]:  {value: fieldValue}};
       // on regroupe ses valeurs dans un nouvel objet
 
-      setForm({...form, ...newField});
+      setForm({...form, ...newField}); 
   }
 
   const selectType = (type: string, e: React.ChangeEvent<HTMLInputElement>):void => {

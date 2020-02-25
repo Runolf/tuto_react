@@ -7,7 +7,7 @@ export const usePokemons = () => {
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 
     useEffect(() => {
-            // setPokemons(POKEMONS);} // appel à l api maintenant ;) 
+            
         PokemonServices.getPokemons()
         .then(pokemons => setPokemons(pokemons));
         },[]);
